@@ -38,7 +38,6 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something broke!");
 });
 
-// Start Server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
