@@ -1,6 +1,6 @@
 // routes/buildings.js
 import express from "express";
-import Building from "../../models/building.js";
+import Building from "../models/building.js";
 
 const router = express.Router();
 
