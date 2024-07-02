@@ -11,11 +11,17 @@ function BuildingsList() {
     const fetchBuildings = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/buildings/?page=${currentPage}&limit=${buildingsPerPage}`
+          `${
+            import.meta.env.VITE_API_URL
+          }/buildings/?page=${currentPage}&limit=${buildingsPerPage}`
         );
-        setBuildings(response.data);
+        if (Array.isArray(response.data)) {
+          setBuildings(response.data);
+        } else {
+          console.error("API response is not an array:", response.data);
+        }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
@@ -33,13 +39,17 @@ function BuildingsList() {
   return (
     <div>
       <h2>Buildings List</h2>
-      <ul>
-        {buildings.map((building) => (
-          <li key={building._id}>
-            {building.buildingId} - {building.streetAddress}
-          </li>
-        ))}
-      </ul>
+      {Array.isArray(buildings) ? (
+        <ul>
+          {buildings.map((building) => (
+            <li key={building._id}>
+              {building.buildingId} - {building.streetAddress}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Loading...</p>
+      )}
       <div>
         <button onClick={prevPage} disabled={currentPage === 1}>
           Previous Page
