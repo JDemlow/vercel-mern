@@ -2,12 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import buildingsRouter from "./routes/buildings.js";
+import buildingsRouter from "../routes/buildings.js";
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
@@ -32,7 +31,17 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-// Start Server
-app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`);
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
 });
+
+// Start Server
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+// Export the app as a Vercel serverless function
+export default app;
