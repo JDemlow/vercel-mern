@@ -1,4 +1,3 @@
-// client/src/components/BuildingsList.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -15,13 +14,9 @@ function BuildingsList() {
             import.meta.env.VITE_API_URL
           }/buildings/?page=${currentPage}&limit=${buildingsPerPage}`
         );
-        if (Array.isArray(response.data)) {
-          setBuildings(response.data);
-        } else {
-          console.error("API response is not an array:", response.data);
-        }
+        setBuildings(response.data);
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
 
