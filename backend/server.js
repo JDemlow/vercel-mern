@@ -1,4 +1,3 @@
-// server.js
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -17,10 +16,7 @@ app.use(express.json());
 // MongoDB Connection
 const uri = process.env.MONGO_URI;
 mongoose
-  .connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(uri)
   .then(() => {
     console.log("MongoDB database connection established successfully");
   })
@@ -30,6 +26,11 @@ mongoose
 
 // Define Routes
 app.use("/buildings", buildingsRouter);
+
+// Root Route
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
 
 // Start Server
 app.listen(port, () => {
